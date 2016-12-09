@@ -93,3 +93,19 @@ hdfs-namenode_configure-iptables-50070:
     - dport: 50070
     - proto: tcp
     - save: True
+
+{% if grains['osmajorrelease']=="7" %}
+hdfs-datanode_systemd-config:
+  file.managed:
+    - name: /usr/lib/systemd/system/hdfs-datanode.service
+    - source: salt://hadoop/templates/systemd/hdfs-datanode.service.tpl
+    - mode: 644
+    - template: jinja
+    - context:
+      hadoop_home: {{hadoop_home}}
+{% endif %}
+
+hdfs-datanode_service:
+  service.running:
+    - name: hdfs-datanode
+    - enable: True
