@@ -75,3 +75,21 @@ hdfs-namenode_service:
   service.running:
     - name: hdfs-namenode
     - enable: True
+
+hdfs-namenode_configure-iptables-9000:
+    iptables.insert:
+    - position: 1
+    - chain: INPUT
+    - jump: ACCEPT
+    - dport: 9000
+    - proto: tcp
+    - save: True
+
+hdfs-namenode_configure-iptables-50070:
+    iptables.insert:
+    - position: 1
+    - chain: INPUT
+    - jump: ACCEPT
+    - dport: 50070
+    - proto: tcp
+    - save: True
