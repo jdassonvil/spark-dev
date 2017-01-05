@@ -7,3 +7,10 @@ hadoop_create-user:
    - name: hadoop
    - groups:
      - hadoop
+   - createhome: False
+
+hduser_create-user:
+  user.present:
+   - name: hduser
+   - groups:
+     - hadoop

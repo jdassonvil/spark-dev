@@ -14,7 +14,7 @@ hadoop_rsync:
 
 hadoop_mkdir:
   file.directory:
-    - name: {{ hadoop_install_dir }} 
+    - name: {{ hadoop_install_dir }}
     - user: hadoop
     - group: hadoop
     - dir_mode: 755
@@ -31,6 +31,10 @@ hadoop_dl-and-extract:
     - if_missing: {{hadoop_home}} 
     - require:
       - hadoop_mkdir
+
+hadoop_release-link:
+  cmd.run:
+    - name: ln -s {{hadoop_home}} /opt/hadoop/release
 
 hadoop_manage-env:
   file.managed:
@@ -56,9 +60,9 @@ hadoop_manager-hdfs-site:
     - user: hadoop
     - group: hadoop
 
-#hadoop_namenode-format:
-#  cmd.run:
-#    - name: {{hadoop_home}}/bin/hdfs namenode -format
+hadoop_namenode-format:
+  cmd.run:
+    - name: {{hadoop_home}}/bin/hdfs namenode -format
 
 {% if grains['osmajorrelease']=="7" %}
 hdfs-namenode_systemd-config:
@@ -75,6 +79,7 @@ hdfs-namenode_service:
   service.running:
     - name: hdfs-namenode
     - enable: True
+    - user: hadoop
 
 hdfs-namenode_configure-iptables-9000:
     iptables.insert:
@@ -109,3 +114,4 @@ hdfs-datanode_service:
   service.running:
     - name: hdfs-datanode
     - enable: True
+    - user: hadoop
