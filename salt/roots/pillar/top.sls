@@ -2,3 +2,4 @@ base:
   '*':
    - java
    - hadoop
+   - spark
