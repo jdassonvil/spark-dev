@@ -1,12 +1,12 @@
 [Unit]
-Description=Spark Worker
+Description=Spark History Server
 Wants=network.target network-online.target
 After=network.target network-online.target
 
 [Service]
-Type=simple
+Type=forking
 User=spark
-ExecStart={{ spark_home }}/bin/spark-class org.apache.spark.deploy.worker.Worker spark://localhost:7077
+ExecStart={{ spark_home }}/sbin/start-history-server.sh
 Restart=on-abort
 
 [Install]

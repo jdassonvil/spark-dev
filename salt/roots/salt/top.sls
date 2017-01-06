@@ -7,3 +7,4 @@ base:
     - spark
     - spark.master
     - spark.worker
+    - spark.historyServer

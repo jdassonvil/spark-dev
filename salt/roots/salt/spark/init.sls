@@ -2,6 +2,7 @@
 {% set spark_downloadUrl = salt['pillar.get']('spark:downloadUrl') %}
 {% set spark_hash = salt['pillar.get']('spark:sha256') %}
 {% set spark_home = spark_install_dir + '/spark-' + salt['pillar.get']('spark:version') + '-bin-hadoop2.7' %}
+{% set spark_log_dir = '/var/log/spark' %}
 
 include:
   - .users
@@ -23,6 +24,21 @@ spark_dl-and-extract:
     - user: spark
     - group: spark
     - if_missing: {{spark_home}}
+
+spark_create-log-dir:
+  file.directory:
+    - name: {{ spark_log_dir }} 
+    - user: spark
+    - group: spark
+    - dir_mode: 755
+    - makedirs: True
+
+spark_default-config:
+  file.managed:
+    - name: {{spark_home}}/conf/spark-defaults.conf
+    - source: salt://spark/files/spark-defaults.conf
+    - user: spark
+    - group: spark
 
 spark_hdfs-log-dir:
   cmd.run:
