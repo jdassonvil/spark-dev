@@ -34,7 +34,7 @@ hadoop_dl-and-extract:
 
 hadoop_release-link:
   cmd.run:
-    - name: ln -s {{hadoop_home}} /opt/hadoop/release
+    - name: ln -f -s {{ hadoop_home }} {{ hadoop_install_dir }}/release
 
 hadoop_manage-env:
   file.managed:
